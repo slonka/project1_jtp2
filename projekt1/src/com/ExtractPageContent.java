@@ -1,10 +1,4 @@
 package com;
-/*
- * This class is part of the book "iText in Action - 2nd Edition"
- * written by Bruno Lowagie (ISBN: 9781935182610)
- * For more info, go to: http://itextpdf.com/examples/
- * This example only works with the AGPL version of iText.
- */
 
 import java.io.IOException;
 import com.itextpdf.text.pdf.PdfReader;

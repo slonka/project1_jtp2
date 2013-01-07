@@ -1,7 +1,6 @@
 package com;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
@@ -44,31 +43,5 @@ public class ExtractPageContent {
 		}
 	}
 
-	public int getNumerOfSigns() {
-		return fileContents.length();
-	}
 
-	public int getNumberOfWords() {
-		Scanner scanner = new Scanner(fileContents);
-		int count = 0;
-		while (scanner.hasNext()) {
-			scanner.next();
-			count++;
-		}
-		scanner.close();
-		return count;
-
-	}
-	
-	public int getNumberOfSentences() {
-		int count=0;
-		char a;
-		for (int i=0; i<fileContents.length(); i++) {
-			a= fileContents.charAt(i);
-			if ((a=='.') || (a=='!') || (a=='?')) {
-				count++;
-			}
-		}
-		return count;
-	}
 }

@@ -20,12 +20,13 @@ public class ExtractPageContent {
 		try {
 			reader = new PdfReader(filePath);
 			parser = new PdfReaderContentParser(reader);
+			getContents();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}		
 	}
 
-	public String getFileContents() throws IOException {
+	public String getFileContents() {
 		return fileContents;
 	}
 
@@ -42,6 +43,4 @@ public class ExtractPageContent {
 			fileContents += strategy.getResultantText();
 		}
 	}
-
-
 }

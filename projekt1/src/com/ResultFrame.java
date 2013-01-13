@@ -3,20 +3,18 @@ package com;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
-import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
 public class ResultFrame extends JFrame {
 	
-	private ExtractPageContent pdf;
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;

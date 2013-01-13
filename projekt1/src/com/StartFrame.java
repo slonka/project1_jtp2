@@ -1,7 +1,5 @@
 package com;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -30,7 +28,6 @@ public class StartFrame extends JFrame implements ActionListener {
 	private File file;
 	private JFileChooser chooser;
 	private String filePath;
-	private ExtractPageContent pdf;
 	
 	public StartFrame() {
 		setBackground(new Color(255, 51, 153));

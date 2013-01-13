@@ -47,4 +47,19 @@ public class TextAnalysisTest {
 	public void testNumberOfSentences() {
 		Assert.assertEquals(new Integer(3), ta.getNumberOfSentences());
 	}
+	
+	@Test
+	public void testMinSentenceLength() {
+		Assert.assertEquals(new Integer(4), ta.getMinSentenceLength());
+	}
+	
+	@Test
+	public void testMaxSentenceLength() {
+		Assert.assertEquals(new Integer(17), ta.getMaxSentenceLength());
+	}
+	
+	@Test
+	public void testNumberOfSignsWtSpaces(){
+		Assert.assertEquals(new Integer(29), ta.getNumberOfSignsWtSpaces());
+	}
 }

@@ -12,41 +12,119 @@ public class TextAnalysis {
 	// TODO: check this patch
 	private final String langdetectProfileDirectory = "profiles/";
 	private Map<String, Integer> wordCounts = new HashMap<String, Integer>();
-	
+
 	// saved results
-	String language;
-	float gunningFogIndex = 0;
-	int numberOfSigns = -1;
-	int numberOfWords = -1;
-	int numberOfSentences = -1;
-	
-	TextAnalysis(String c)
-	{
+	private float gunningFogIndex = 0;
+	private int numberOfSigns = 0;
+	private int numberOfWords = 0;
+	private int numberOfSentences = 0;
+	private int maxSentenceLength = 0;
+	private int minSentenceLength;
+	private int numberOfSignsWtSpaces = 0;
+
+	TextAnalysis(String c) {
 		contents = c;
+		numberOfSigns = contents.length() - 1; // najwidoczniej dodaje 1 znak na
+												// koncu
+		for (int i = 0; i < contents.length(); i++) {
+			System.out.println(i + ": " + contents.charAt(i));
+		}
+		numberOfWords = countWords();
+		minSentenceLength = numberOfSigns;
+		countSentences();
+		getWordOccurances();
+		gunningFogIndex = (float) (0.4 * (numberOfWords / numberOfSentences));
+		// TODO: + 100 (complex words / words)
+		//l = detectLanguage();
 	}
-	
-	public void getWordOccurances()
-	{
+
+	public float getGunningFogIndex() {
+		return gunningFogIndex;
+
+	}
+
+	public Integer getNumberOfSigns() {
+		return numberOfSigns;
+	}
+
+	public Integer getNumberOfWords() {
+		return numberOfWords;
+	}
+
+	public Integer getNumberOfSentences() {
+		return numberOfSentences;
+	}
+
+	public Integer getMinSentenceLength() {
+		return minSentenceLength;
+	}
+
+	public Integer getMaxSentenceLength() {
+		return maxSentenceLength;
+	}
+
+	public Integer getNumberOfSignsWtSpaces() {
+		return numberOfSignsWtSpaces;
+	}
+
+	public Map<String, Integer> getWordCounts() {
+		return wordCounts;
+	}
+
+	private int countWords() {
+		Scanner scanner = new Scanner(contents);
+		int count = 0;
+		while (scanner.hasNext()) {
+			String s = scanner.next();
+			System.out.println(s);
+			count++;
+		}
+		scanner.close();
+		return count;
+	}
+
+	private void countSentences() {
+		int length = 0;
+		int spaces = 0;
+		char a;
+		boolean dots = false;
+		for (int i = 0; i < contents.length(); i++) {
+			a = contents.charAt(i);
+			if (a == ' ')
+				spaces++;
+			if (((a == '.') || (a == '…') || (a == '!') || (a == '?'))
+					&& (!dots)) {
+				numberOfSentences++;
+				length++;
+				dots = true;
+				if (length < minSentenceLength)
+					minSentenceLength = length;
+				if (length > maxSentenceLength)
+					maxSentenceLength = length;
+				length = 0;
+			} else {
+				if (!dots)
+					length++;
+				dots = false;
+			}
+		}
+		numberOfSignsWtSpaces = contents.length() - spaces;
+	}
+
+	private void getWordOccurances() {
 		String[] words = contents.toLowerCase().split("\\s+");
-	
+
 		for (String word : words) {
-		    Integer count = wordCounts.get(word);
-		    if (count == null) {
-		        count = 0;
-		    }
-		    wordCounts.put(word, count + 1);
+			Integer count = wordCounts.get(word);
+			if (count == null) {
+				count = 0;
+			}
+			wordCounts.put(word, count + 1);
 		}
 	}
-	
-	float getGunningFogIndex()
-	{
-		return (float) (0.4 * (numberOfWords/numberOfSentences)); // TODO: + 100 (complex words / words) 
-		
-	}
-	
+
 	// TODO: Check what it actually retuns, my guess: iso language code
-	public String detectLanguage()
-	{
+	public String detectLanguage() {
 		String lang = "Could not detect";
 		try {
 			DetectorFactory.loadProfile(langdetectProfileDirectory);
@@ -59,54 +137,5 @@ public class TextAnalysis {
 			e.printStackTrace();
 		}
 		return lang;
-	}
-	
-	public Integer getNumberOfSigns() {
-		numberOfSigns = contents.length()-1; // najwidoczniej dodaje 1 znak na koncu
-		System.out.println(numberOfSigns); 
-		for (int i=0 ; i< contents.length(); i++)
-		System.out.println(i+ ": "+ contents.charAt(i));
-		return numberOfSigns;
-	}
-
-	public Integer getNumberOfWords() {
-		if (numberOfWords == -1)
-		{
-			Scanner scanner = new Scanner(contents);
-			int count = 0;
-			while (scanner.hasNext()) {
-				String s= scanner.next();
-				System.out.println(s);
-				count++;
-			}
-			scanner.close();
-			return count;
-		}
-		else
-			return numberOfWords;
-	}
-	
-	public Integer getNumberOfSentences() {
-		if (numberOfSentences == -1)
-		{
-			int count=0;
-			char a;
-			boolean dots= false;
-			for (int i=0; i<contents.length(); i++) {
-				a= contents.charAt(i);
-				if (((a=='.') ||  (a=='…') )&&(!dots)) {
-						count++;
-						dots= true;
-				} else 
-					if ((a=='!') || (a=='?')) {
-						count++;
-						dots= false;
-					}
-					else dots= false;
-			}
-			return count;
-		}
-		else
-			return numberOfSentences;
 	}
 }

@@ -16,8 +16,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/slonka/git/git/project1_jtp2/projekt1/lib/jsonic-1.3.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/slonka/git/git/project1_jtp2/projekt1/lib/langdetect.jar"/>
+	<classpathentry kind="lib" path="lib/jsonic-1.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/langdetect.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

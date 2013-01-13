@@ -3,20 +3,18 @@ package com;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
-import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.UIManager;
 
 public class ResultFrame extends JFrame {
 	
-	private ExtractPageContent pdf;
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -43,24 +41,18 @@ public class ResultFrame extends JFrame {
 		
 		System.out.println(filePath);
 		
-		pdf = new ExtractPageContent(filePath);
-		 try { 
-			 pdf.getContents(); }
-		 catch (IOException e1) 
-		 {}
-		
-		
+		TextAnalysis text = new TextAnalysis( new ExtractPageContent(filePath).getFileContents() );
 		
 		textField = new JTextField();
-		textField.setText(pdf.getNumberOfSigns().toString());
+		textField.setText(text.getNumberOfSigns().toString());
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setText(pdf.getNumberOfWords().toString());
+		textField_1.setText(text.getNumberOfWords().toString());
 		textField_1.setColumns(10);
 		
 		textField_2 = new JTextField();
-		textField_2.setText(pdf.getNumberOfSentences().toString());
+		textField_2.setText(text.getNumberOfSentences().toString());
 		textField_2.setColumns(10);
 		
 		JLabel lblIloZnakw = new JLabel("Ilo\u015B\u0107 znak\u00F3w:");

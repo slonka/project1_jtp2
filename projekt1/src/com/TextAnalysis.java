@@ -62,8 +62,10 @@ public class TextAnalysis {
 	}
 	
 	public Integer getNumberOfSigns() {
-		numberOfSigns = contents.length();
-		System.out.println(numberOfSigns);
+		numberOfSigns = contents.length()-1; // najwidoczniej dodaje 1 znak na koncu
+		System.out.println(numberOfSigns); 
+		for (int i=0 ; i< contents.length(); i++)
+		System.out.println(i+ ": "+ contents.charAt(i));
 		return numberOfSigns;
 	}
 
@@ -73,7 +75,8 @@ public class TextAnalysis {
 			Scanner scanner = new Scanner(contents);
 			int count = 0;
 			while (scanner.hasNext()) {
-				scanner.next();
+				String s= scanner.next();
+				System.out.println(s);
 				count++;
 			}
 			scanner.close();
@@ -88,11 +91,18 @@ public class TextAnalysis {
 		{
 			int count=0;
 			char a;
+			boolean dots= false;
 			for (int i=0; i<contents.length(); i++) {
 				a= contents.charAt(i);
-				if ((a=='.') || (a=='!') || (a=='?')) {
-					count++;
-				}
+				if (((a=='.') ||  (a=='…') )&&(!dots)) {
+						count++;
+						dots= true;
+				} else 
+					if ((a=='!') || (a=='?')) {
+						count++;
+						dots= false;
+					}
+					else dots= false;
 			}
 			return count;
 		}

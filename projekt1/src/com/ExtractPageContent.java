@@ -39,6 +39,7 @@ public class ExtractPageContent {
 	}
 
 	public void getContents() throws IOException {
+		fileContents= "";
 		for (int i = 1; i <= reader.getNumberOfPages(); i++) {
 			strategy = parser.processContent(i,
 					new SimpleTextExtractionStrategy());
@@ -50,7 +51,6 @@ public class ExtractPageContent {
 		String newFile= new String(this.filePath.substring(0,(this.filePath.length()-3))+fileExtension);
 		PrintWriter myFile= new PrintWriter(newFile);
 		myFile.write(this.fileContents);
-		System.out.println(newFile);
 		myFile.close();
 	}
 }

@@ -1,6 +1,8 @@
 package com;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
@@ -42,5 +44,13 @@ public class ExtractPageContent {
 					new SimpleTextExtractionStrategy());
 			fileContents += strategy.getResultantText();
 		}
+	}
+	
+	public void toFile (String fileExtension) throws FileNotFoundException {
+		String newFile= new String(this.filePath.substring(0,(this.filePath.length()-3))+fileExtension);
+		PrintWriter myFile= new PrintWriter(newFile);
+		myFile.write(this.fileContents);
+		System.out.println(newFile);
+		myFile.close();
 	}
 }

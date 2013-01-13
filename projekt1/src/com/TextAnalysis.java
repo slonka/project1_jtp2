@@ -16,7 +16,7 @@ public class TextAnalysis {
 	// saved results
 	String language;
 	float gunningFogIndex = 0;
-	int numerOfSigns = -1;
+	int numberOfSigns = -1;
 	int numberOfWords = -1;
 	int numberOfSentences = -1;
 	
@@ -61,12 +61,13 @@ public class TextAnalysis {
 		return lang;
 	}
 	
-	public int getNumerOfSigns() {
-		numerOfSigns = contents.length();
-		return contents.length();
+	public Integer getNumberOfSigns() {
+		numberOfSigns = contents.length();
+		System.out.println(numberOfSigns);
+		return numberOfSigns;
 	}
 
-	public int getNumberOfWords() {
+	public Integer getNumberOfWords() {
 		if (numberOfWords == -1)
 		{
 			Scanner scanner = new Scanner(contents);
@@ -82,7 +83,7 @@ public class TextAnalysis {
 			return numberOfWords;
 	}
 	
-	public int getNumberOfSentences() {
+	public Integer getNumberOfSentences() {
 		if (numberOfSentences == -1)
 		{
 			int count=0;

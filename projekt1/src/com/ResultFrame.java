@@ -43,24 +43,18 @@ public class ResultFrame extends JFrame {
 		
 		System.out.println(filePath);
 		
-		pdf = new ExtractPageContent(filePath);
-		 try { 
-			 pdf.getContents(); }
-		 catch (IOException e1) 
-		 {}
-		
-		
+		TextAnalysis text = new TextAnalysis( new ExtractPageContent(filePath).getFileContents() );
 		
 		textField = new JTextField();
-		textField.setText(pdf.getNumberOfSigns().toString());
+		textField.setText(text.getNumberOfSigns().toString());
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setText(pdf.getNumberOfWords().toString());
+		textField_1.setText(text.getNumberOfWords().toString());
 		textField_1.setColumns(10);
 		
 		textField_2 = new JTextField();
-		textField_2.setText(pdf.getNumberOfSentences().toString());
+		textField_2.setText(text.getNumberOfSentences().toString());
 		textField_2.setColumns(10);
 		
 		JLabel lblIloZnakw = new JLabel("Ilo\u015B\u0107 znak\u00F3w:");

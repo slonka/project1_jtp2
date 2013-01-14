@@ -16,7 +16,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JToggleButton;
-import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
 public class StartFrame extends JFrame implements ActionListener {
@@ -36,11 +35,11 @@ public class StartFrame extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 258, 132);
 		contentPane = new JPanel();
-		contentPane.setBackground(UIManager.getColor("info"));
+		contentPane.setBackground(new Color(245, 222, 179));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		chooser = new JFileChooser("C:\\Users\\Paulina\\Desktop");
+		chooser = new JFileChooser("C:");		//C:\\Users\\Paulina\\Desktop
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("pdf", "pdf");
 		chooser.setFileFilter(filter);
 		
@@ -94,7 +93,6 @@ public class StartFrame extends JFrame implements ActionListener {
 	                file = chooser.getSelectedFile();
 	                this.filePath = file.getAbsolutePath();
 	                txtTuBdzieTekst.setText(filePath);
-	        		System.out.println(filePath);
 	        		btnStart.setVisible(true);
 	            }
 		 } 
@@ -103,6 +101,7 @@ public class StartFrame extends JFrame implements ActionListener {
 				 try {
 					 ResultFrame result = new ResultFrame(this.filePath);
 					 result.setVisible(true);
+					 this.setVisible(false);
 				 } catch (Exception e1) {
 					 e1.printStackTrace();
 				 }

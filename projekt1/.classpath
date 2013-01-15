@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/jsonic-1.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/langdetect.jar"/>
 	<classpathentry kind="lib" path="lib/google-api-spelling-java-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/pdfbox-app-1.7.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

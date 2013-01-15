@@ -102,13 +102,12 @@ public class StartFrame extends JFrame implements ActionListener {
 				 try {
 					 ResultFrame result = new ResultFrame(this.filePath);
 					 result.setVisible(true);
-					 this.setVisible(false);
+					 //this.setVisible(false);
 				 } catch (Exception e1) {
 					 e1.printStackTrace();
 				 }
 			 }
-		 }
-		
+		 }	
 	}
 	
 	public String getFilePath() {

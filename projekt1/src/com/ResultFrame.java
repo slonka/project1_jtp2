@@ -3,6 +3,9 @@ package com;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -48,10 +51,10 @@ public class ResultFrame extends JFrame implements ActionListener {
 	private JTextField textField_7;
 	private JScrollPane scrollPane;
 
-	public ResultFrame(String filePath) {
+	public ResultFrame(String filePath)  throws Exception {
 		setResizable(false);
 		setTitle("Statystyki");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 691, 455);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(245, 222, 179));
@@ -220,13 +223,24 @@ public class ResultFrame extends JFrame implements ActionListener {
 				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
 		);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBackground(new Color(255, 255, 240));
-		textArea.setFont(new Font("Arial", Font.PLAIN, 10));
-		scrollPane.setViewportView(textArea);
-		textArea.setEditable(false);
-		textArea.setText(text1.getFileContents());
+		JTextPane txtpnN = new JTextPane();
+		
+		StyledDocument doc = txtpnN.getStyledDocument();
+	    Style normal = txtpnN.addStyle("normal", null);
+	    Style underlined = txtpnN.addStyle("underlined", normal);
+	    StyleConstants.setUnderline(underlined, true);
+	  
+	    doc.insertString(doc.getLength(), text1.getFileContents(), normal);
+	    //petla po tablicy
+	    //doc.remove(indeks pierwszego znaku, slowo.length());
+	    //doc.insertString(indeks pierwszego znaku, slowo, underlined);
+	
+	    
+		txtpnN.setEditable(false);
+		txtpnN.setFont(new Font("Arial", Font.PLAIN, 11));
+		scrollPane.setViewportView(txtpnN);
 		contentPane.setLayout(gl_contentPane);
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) {

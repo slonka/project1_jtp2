@@ -13,6 +13,9 @@ public class TextAnalysis {
 	private final String langdetectProfileDirectory = "profiles/";
 	private Map<String, Integer> wordCounts = new HashMap<String, Integer>();
 
+	private HashMap<String, String> languageNames = new HashMap<String, String>();
+	
+	
 	// saved results
 	private float gunningFogIndex = 0;
 	private int numberOfSigns = 0;
@@ -21,8 +24,9 @@ public class TextAnalysis {
 	private int maxSentenceLength = 0;
 	private int minSentenceLength;
 	private int numberOfSignsWtSpaces = 0;
-
+	
 	TextAnalysis(String c) {
+		setUpLanguageMap();
 		contents = c;
 		numberOfSigns = contents.length() - 1; // najwidoczniej dodaje 1 znak na
 												// koncu
@@ -38,9 +42,65 @@ public class TextAnalysis {
 		//l = detectLanguage();
 	}
 
+	public void setUpLanguageMap()
+	{
+		languageNames.put("af", "Afrikaans");
+		languageNames.put("ar", "Arabic");
+		languageNames.put("bg", "Bulgarian");
+		languageNames.put("bn", "Bengali");
+		languageNames.put("cs", "Czech");
+		languageNames.put("da", "Danish");
+		languageNames.put("de", "German");
+		languageNames.put("el", "Greek");
+		languageNames.put("en", "English");
+		languageNames.put("es", "Spanish");
+		languageNames.put("et", "Estonian");
+		languageNames.put("fa", "Persian");
+		languageNames.put("fi", "Finnish");
+		languageNames.put("fr", "French");
+		languageNames.put("gu", "Gujarati");
+		languageNames.put("he", "Hebrew");
+		languageNames.put("hi", "Hindi");
+		languageNames.put("hr", "Croatian");
+		languageNames.put("hu", "Hungarian");
+		languageNames.put("id", "Indonesian");
+		languageNames.put("it", "Italian");
+		languageNames.put("ja", "Japanese");
+		languageNames.put("kn", "Kannada");
+		languageNames.put("ko", "Korean");
+		languageNames.put("lt", "Lithuanian");
+		languageNames.put("lv", "Latvian");
+		languageNames.put("mk", "Macedonian");
+		languageNames.put("ml", "Malayalam");
+		languageNames.put("mr", "Marathi");
+		languageNames.put("ne", "Nepali");
+		languageNames.put("nl", "Dutch");
+		languageNames.put("no", "Norwegian");
+		languageNames.put("pa", "Punjabi");
+		languageNames.put("pl", "Polish");
+		languageNames.put("pt", "Portuguese");
+		languageNames.put("ro", "Romanian");
+		languageNames.put("ru", "Russian");
+		languageNames.put("sk", "Slovak");
+		languageNames.put("sl", "Slovene");
+		languageNames.put("so", "Somali");
+		languageNames.put("sq", "Albanian");
+		languageNames.put("sv", "Swedish");
+		languageNames.put("sw", "Swahili");
+		languageNames.put("ta", "Tamil");
+		languageNames.put("te", "Telugu");
+		languageNames.put("th", "Thai");
+		languageNames.put("tl", "Tagalog");
+		languageNames.put("tr", "Turkish");
+		languageNames.put("uk", "Ukrainian");
+		languageNames.put("ur", "Urdu");
+		languageNames.put("vi", "Vietnamese");
+		languageNames.put("zh-cn", "Simplified Chinese");
+		languageNames.put("zh-tw", "Traditional Chinese");
+	}
+	
 	public float getGunningFogIndex() {
 		return gunningFogIndex;
-
 	}
 
 	public Integer getNumberOfSigns() {
@@ -123,7 +183,6 @@ public class TextAnalysis {
 		}
 	}
 
-	// TODO: Check what it actually retuns, my guess: iso language code
 	public String detectLanguage() {
 		String lang = "Could not detect";
 		try {
@@ -131,6 +190,7 @@ public class TextAnalysis {
 			Detector detector = DetectorFactory.create();
 			detector.append(contents);
 			lang = detector.detect();
+			lang = languageNames.get(lang);
 		} catch (LangDetectException e) {
 			// TODO We need a logging system!
 			System.out.println(e.getMessage());

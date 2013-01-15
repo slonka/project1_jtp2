@@ -24,11 +24,11 @@ public class TextAnalysis {
 
 	TextAnalysis(String c) {
 		contents = c;
-		numberOfSigns = contents.length() - 1; // najwidoczniej dodaje 1 znak na
+		numberOfSigns = contents.length()- 1; // najwidoczniej dodaje 1 znak na
 												// koncu
-		for (int i = 0; i < contents.length(); i++) {
+		/*for (int i = 0; i < contents.length(); i++) {
 			System.out.println(i + ": " + contents.charAt(i));
-		}
+		}*/
 		numberOfWords = countWords();
 		minSentenceLength = numberOfSigns;
 		countSentences();
@@ -76,7 +76,6 @@ public class TextAnalysis {
 		int count = 0;
 		while (scanner.hasNext()) {
 			String s = scanner.next();
-			System.out.println(s);
 			count++;
 		}
 		scanner.close();

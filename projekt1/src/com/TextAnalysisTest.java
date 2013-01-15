@@ -29,6 +29,12 @@ public class TextAnalysisTest {
 	public void testLanguageDetection()
 	{
 		Assert.assertEquals("Polish", ta.detectLanguage());
+		
+	}
+	
+	@Test
+	public void testLanguageDetection2()
+	{
 		Assert.assertEquals("English", ta2.detectLanguage());
 	}
 	

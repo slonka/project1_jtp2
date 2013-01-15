@@ -9,12 +9,9 @@ import com.cybozu.labs.langdetect.LangDetectException;
 
 public class TextAnalysis {
 	private String contents;
-	// TODO: check this patch
 	private final String langdetectProfileDirectory = "profiles/";
 	private Map<String, Integer> wordCounts = new HashMap<String, Integer>();
-	
 	private static Boolean langFactoryInitialized = false;
-	
 	private HashMap<String, String> languageNames = new HashMap<String, String>();
 	
 	
@@ -200,10 +197,12 @@ public class TextAnalysis {
 		String lang;
 		try {
 			Detector detector = DetectorFactory.create();
+			detector.append(contents);
 			lang = detector.detect();
 			lang = languageNames.get(lang);
 		} catch (LangDetectException e) {
 			// TODO We need a logging system!
+			e.printStackTrace();
 			lang = e.getMessage();
 		}
 		return lang;

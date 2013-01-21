@@ -80,4 +80,17 @@ public class TextAnalysisTest {
 		Assert.assertEquals(new Integer(14128), ta1.getNumberOfSignsWtSpaces());
 		Assert.assertEquals(new Integer(132259), ta2.getNumberOfSignsWtSpaces());
 	}
+	
+	@Test
+	public void testSpellCheck()
+	{
+		System.out.println(ta.detectLanguage());
+		System.out.println(ta2.detectLanguage());
+		
+		// nie czyta polskich znaków :( si¹dê nad tym jeszcze w nocy/rano narazie biorê siê za mownit
+		Assert.assertEquals( new Boolean(true), ta.isWordCorrect("abadañski"));
+		Assert.assertEquals( new Boolean(false), ta2.isWordCorrect("zakaz"));
+		Assert.assertEquals( new Boolean(true), ta2.isWordCorrect("work"));
+	}
+	
 }

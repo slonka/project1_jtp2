@@ -1,19 +1,24 @@
 package com;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
+import com.swabunga.spell.engine.SpellDictionaryHashMap;
+import com.swabunga.spell.event.SpellChecker;
 
 public class TextAnalysis {
 	private String contents;
-	private final String langdetectProfileDirectory = "profiles/";
+	private final static String langdetectProfileDirectory = "profiles/";
 	private Map<String, Integer> wordCounts = new HashMap<String, Integer>();
-	private static Boolean langFactoryInitialized = false;
 	private HashMap<String, String> languageNames = new HashMap<String, String>();
-	
+	protected SpellDictionaryHashMap dictionary = null;
+    protected SpellChecker spellChecker = null;
 	
 	// saved results
 	private float gunningFogIndex = 0;
@@ -23,22 +28,32 @@ public class TextAnalysis {
 	private int maxSentenceLength = 0;
 	private int minSentenceLength;
 	private int numberOfSignsWtSpaces = 0;
+	private String langCode;
+	private String langName;
 	
+	static
+	{
+		try {
+			DetectorFactory.loadProfile(langdetectProfileDirectory);
+		} catch (LangDetectException e) {
+			e.printStackTrace();
+		}			
+	}
 	
 	TextAnalysis(String c) {
+		contents = c;
+		
 		setUpLanguageMap();
 		
-		if(langFactoryInitialized == false)
-		{
-			try {
-				langFactoryInitialized = true;
-				DetectorFactory.loadProfile(langdetectProfileDirectory);
-			} catch (LangDetectException e) {
-				e.printStackTrace();
-			}
-		}
+		detectLanguage();
 		
-		contents = c;
+		try {
+			dictionary = new SpellDictionaryHashMap(new File("dictionaries/" + langCode + ".dic"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		spellChecker = new SpellChecker(dictionary);
+		
 		numberOfSigns = contents.length()- 1; // najwidoczniej dodaje 1 znak na
 												// koncu
 		/*for (int i = 0; i < contents.length(); i++) {
@@ -194,17 +209,20 @@ public class TextAnalysis {
 	}
 
 	public String detectLanguage() {
-		String lang;
 		try {
 			Detector detector = DetectorFactory.create();
 			detector.append(contents);
-			lang = detector.detect();
-			lang = languageNames.get(lang);
+			langCode = detector.detect();
+			langName = languageNames.get(langCode);			
 		} catch (LangDetectException e) {
-			// TODO We need a logging system!
 			e.printStackTrace();
-			lang = e.getMessage();
+			langName = e.getMessage();
 		}
-		return lang;
+		return langName;
+	}
+	
+	public Boolean isWordCorrect(String word)
+	{
+		return spellChecker.isCorrect(word);
 	}
 }

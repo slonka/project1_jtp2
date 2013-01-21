@@ -26,7 +26,7 @@ public class TextAnalysis {
 	private int numberOfWords = 0;
 	private int numberOfSentences = 0;
 	private int maxSentenceLength = 0;
-	private int minSentenceLength;
+	private int minSentenceLength= 0;
 	private int numberOfSignsWtSpaces = 0;
 	private String langCode;
 	private String langName;
@@ -41,10 +41,8 @@ public class TextAnalysis {
 	}
 	
 	TextAnalysis(String c) {
-		contents = c;
-		
+		contents =c.trim();  //usuwa biale z poczatku i konca
 		setUpLanguageMap();
-		
 		detectLanguage();
 		
 		try {
@@ -53,19 +51,19 @@ public class TextAnalysis {
 			e.printStackTrace();
 		}
 		spellChecker = new SpellChecker(dictionary);
+	}
+	
+	public void getStatistics() {
+	
 		
-		numberOfSigns = contents.length()- 1; // najwidoczniej dodaje 1 znak na
-												// koncu
-		/*for (int i = 0; i < contents.length(); i++) {
-			System.out.println(i + ": " + contents.charAt(i));
-		}*/
+		numberOfSigns = contents.length();
 		numberOfWords = countWords();
 		minSentenceLength = numberOfSigns;
 		countSentences();
 		getWordOccurances();
 		gunningFogIndex = (float) (0.4 * (numberOfWords / numberOfSentences));
 		// TODO: + 100 (complex words / words)
-		//l = detectLanguage();
+		
 	}
 
 	public void setUpLanguageMap()
@@ -162,7 +160,11 @@ public class TextAnalysis {
 		int count = 0;
 		while (scanner.hasNext()) {
 			String s = scanner.next();
-			count++;
+			if (s.length()== 1) {
+				if (Character.isLetter (s.charAt(0))) count++;
+			}
+			else
+				count++;
 		}
 		scanner.close();
 		return count;
@@ -175,14 +177,14 @@ public class TextAnalysis {
 		boolean dots = false;
 		for (int i = 0; i < contents.length(); i++) {
 			a = contents.charAt(i);
-			if (a == ' ')
+			if (Character.isWhitespace(a))
 				spaces++;
 			if (((a == '.') || (a == '…') || (a == '!') || (a == '?'))
 					&& (!dots)) {
 				numberOfSentences++;
 				length++;
 				dots = true;
-				if (length < minSentenceLength)
+				if (length < minSentenceLength )
 					minSentenceLength = length;
 				if (length > maxSentenceLength)
 					maxSentenceLength = length;

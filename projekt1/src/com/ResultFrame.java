@@ -14,16 +14,12 @@ import java.awt.Font;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.UIManager;
 import javax.swing.JToggleButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import javax.swing.DropMode;
-import javax.swing.JScrollBar;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JScrollPane;
 import java.awt.Color;
@@ -48,11 +44,12 @@ public class ResultFrame extends JFrame implements ActionListener {
 	private JTextField textField_6;
 	private JLabel lblWspczynnikMglistoci;
 	private JLabel lblIloNiebiaychZnakw;
-	private JTextField textField_7;
 	private JScrollPane scrollPane;
+	private JTextField textField_7;
+	private JTextField txtWpiszSowo;
+	private JTextField textField_8;
 
 	public ResultFrame(String filePath)  throws Exception {
-		setResizable(false);
 		setTitle("Statystyki");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 691, 455);
@@ -61,8 +58,11 @@ public class ResultFrame extends JFrame implements ActionListener {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		this.getContentPane().setLayout(null);
+		
 		text1 = new ExtractPageContent(filePath);
 		text = new TextAnalysis(text1.getFileContents());
+		text.getStatistics();
 		
 		chooser = new JFileChooser("C:\\Users\\Paulina\\Desktop");
 		
@@ -83,29 +83,37 @@ public class ResultFrame extends JFrame implements ActionListener {
 		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
-		textField_3.setColumns(10);
 		textField_3.setText(text.detectLanguage());
+		textField_3.setColumns(10);
 		
 		textField_4 = new JTextField();
 		textField_4.setEditable(false);
-		textField_4.setColumns(10);
 		textField_4.setText(text.getMinSentenceLength().toString());
+		textField_4.setColumns(10);
 
 		textField_5 = new JTextField();
 		textField_5.setEditable(false);
-		textField_5.setColumns(10);
 		textField_5.setText(text.getMaxSentenceLength().toString());
+		textField_5.setColumns(10);
 
 		textField_6 = new JTextField();
 		textField_6.setEditable(false);
-		textField_6.setColumns(10);
 		textField_6.setText(new Float(text.getGunningFogIndex()).toString());
-
+		textField_6.setColumns(10);
+		
 		textField_7 = new JTextField();
+		textField_7.setText(text.getNumberOfSignsWtSpaces().toString());
 		textField_7.setEditable(false);
 		textField_7.setColumns(10);
-		textField_7.setText(text.getNumberOfSignsWtSpaces().toString());
-
+		
+		textField_8 = new JTextField();
+		textField_8.setText((String) null);
+		textField_8.setEditable(false);
+		textField_8.setColumns(10);	
+		
+		txtWpiszSowo = new JTextField();
+		txtWpiszSowo.setColumns(10);
+		txtWpiszSowo.addActionListener(this);
 		
 		JLabel lblIloZnakw = new JLabel("Ilo\u015B\u0107 znak\u00F3w:");
 		lblIloZnakw.setFont(new Font("Verdana", Font.PLAIN, 12));
@@ -135,7 +143,10 @@ public class ResultFrame extends JFrame implements ActionListener {
 		lblIloNiebiaychZnakw.setFont(new Font("Verdana", Font.PLAIN, 12));
 		
 		scrollPane = new JScrollPane();
-
+		
+		JLabel lblSprawdzaniePoprawnoci = new JLabel("Sprawdzanie poprawno\u015Bci, wpisz s\u0142owo:");
+		lblSprawdzaniePoprawnoci.setFont(new Font("Verdana", Font.PLAIN, 12));
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -143,60 +154,60 @@ public class ResultFrame extends JFrame implements ActionListener {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblIloZnakw)
-							.addPreferredGap(ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblIloZda, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblIloSw, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-									.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-										.addComponent(lblWspczynnikMglistoci, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-										.addGap(18))
-									.addComponent(lblDugoNajduszegoZdania, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 178, Short.MAX_VALUE)
-									.addComponent(label, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-									.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-										.addComponent(lblDugoNajkrtszegoZdania)
-										.addPreferredGap(ComponentPlacement.RELATED)))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblIloNiebiaychZnakw, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-									.addGap(28)))
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_7, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-								.addGroup(Alignment.TRAILING, gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(textField_2)
-											.addComponent(textField_1)
-											.addComponent(textField_4)))
-									.addGroup(Alignment.TRAILING, gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textField_6)
-										.addComponent(textField_5, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)))
-								.addComponent(tglbtnPdf, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 86, Short.MAX_VALUE))))
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 337, GroupLayout.PREFERRED_SIZE)
-					.addGap(26))
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addComponent(lblWspczynnikMglistoci, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+											.addGap(18))
+										.addComponent(lblDugoNajduszegoZdania, GroupLayout.PREFERRED_SIZE, 214, Short.MAX_VALUE)
+										.addComponent(label, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblDugoNajkrtszegoZdania)
+										.addComponent(lblIloNiebiaychZnakw, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblIloSw, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblIloZda, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblIloZnakw))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(0)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(textField_3, Alignment.LEADING)
+												.addComponent(textField_4, Alignment.LEADING)
+												.addComponent(textField, Alignment.LEADING)
+												.addComponent(textField_2, Alignment.LEADING)
+												.addComponent(textField_1, Alignment.LEADING)))
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+											.addComponent(textField_5, Alignment.LEADING)
+											.addComponent(textField_6, Alignment.LEADING)
+											.addComponent(textField_7, Alignment.LEADING))))
+								.addComponent(tglbtnPdf, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+									.addComponent(txtWpiszSowo, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)))
+							.addGap(18))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblSprawdzaniePoprawnoci, GroupLayout.PREFERRED_SIZE, 270, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+					.addGap(16))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(33)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblIloZda, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblIloZda, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblIloZnakw))
 					.addGap(10)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblIloSw, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblIloSw, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
 					.addGap(12)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -217,10 +228,16 @@ public class ResultFrame extends JFrame implements ActionListener {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblIloNiebiaychZnakw, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(27)
+					.addGap(17)
+					.addComponent(lblSprawdzaniePoprawnoci, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtWpiszSowo, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
+					.addGap(12)
 					.addComponent(tglbtnPdf)
-					.addContainerGap(97, Short.MAX_VALUE))
-				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+					.addContainerGap(35, Short.MAX_VALUE))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
 		);
 		
 		JTextPane txtpnN = new JTextPane();
@@ -240,10 +257,11 @@ public class ResultFrame extends JFrame implements ActionListener {
 		txtpnN.setFont(new Font("Arial", Font.PLAIN, 11));
 		scrollPane.setViewportView(txtpnN);
 		contentPane.setLayout(gl_contentPane);
+		System.out.println(text.isWordCorrect(new String("change")));
 		
 	}
 	
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) throws NullPointerException {
 		if (e.getSource() == tglbtnPdf) {
 			int odpowiedz = chooser.showSaveDialog(this);
 			   if (odpowiedz == chooser.APPROVE_OPTION) {
@@ -257,7 +275,15 @@ public class ResultFrame extends JFrame implements ActionListener {
 			           System.out.println("Problem: "+e);
 			       }
 			   }
-
 		} 
+		else {
+			System.out.println(txtWpiszSowo.getText());
+			if(!text.isWordCorrect(txtWpiszSowo.getText())) {
+				textField_8.setText("S這wo nie wyst瘼uje w s這wniku.");
+			}
+			else {
+				textField_8.setText("S這wo wyst瘼uje w s這wniku.");
+			}
+		}
 	}
 }

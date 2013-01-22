@@ -16,7 +16,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JToggleButton;
-import javax.swing.UIManager;
 
 @SuppressWarnings("serial")
 public class StartFrame extends JFrame implements ActionListener {
@@ -52,7 +51,6 @@ public class StartFrame extends JFrame implements ActionListener {
 		btnStart.setFont(new Font("Verdana", Font.PLAIN, 11));
 		btnStart.addActionListener(this);
 		btnStart.setVisible(false);
-	
 		
 		txtTuBdzieTekst = new JTextField();
 		txtTuBdzieTekst.setColumns(10);
